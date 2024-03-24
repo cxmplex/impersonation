@@ -9,7 +9,6 @@ names = [
     "Sarah Davis", "Charles Wilson", "Emily Moore", "Daniel Taylor", "Jessica White"
 ]
 
-# Function to obfuscate a single name
 def obfuscate_name(name, character_map, leet_map):
     # Splitting the name into first and last names
     parts = name.split(" ")
