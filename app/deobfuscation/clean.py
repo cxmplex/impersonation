@@ -25,7 +25,6 @@ def normalize(content, character_map):
     """
     normalized = deobfuscate(content, character_map)
     
-    # Lowercase Conversion
     normalized_lower = normalized.lower()
     
     return re.sub(r'[^a-z\s]', '', normalized_lower)
