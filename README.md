@@ -29,7 +29,7 @@ Rather than ĵessicẩ we have ĵesicẩ or ĵessicẩ or ĵessiccẩ. To counte
 
 By setting a threshhold based on the length of the name, I'm able to confidentally say that jesssica is "close enough" to jessica, and perform the match.
 
-|Results|
+Results
 
 The names could be represented in the from header as the following, and still be matched:
 
