@@ -48,7 +48,6 @@ def find_matches(normalized_name, first_name, last_name):
     word_pairs = create_word_pairs(normalized_name) or [(f"{normalized_name}", '')]
 
     for pair in word_pairs:
-        # edge case
         normalized_name_lower = f"{pair[0]}{pair[1]}".lower()
         first_name_lower = first_name.lower()
         last_name_lower = last_name.lower()
@@ -56,9 +55,7 @@ def find_matches(normalized_name, first_name, last_name):
         # Check for direct match
         if normalized_name_lower == f"{first_name_lower}{last_name_lower}" or normalized_name_lower == f"{last_name_lower}{first_name_lower}" \
             or normalized_name_lower.replace(" ", "") == f"{first_name_lower}{last_name_lower}" or normalized_name_lower.replace(" ", "") == f"{last_name_lower}{first_name_lower}":
-            result['match'] = True
-            result['first'] = first_name
-            result['last'] = last_name
+            result.update(match=True, first=first_name, last=last_name)
             return result
 
         # Check for leven distance
@@ -67,10 +64,8 @@ def find_matches(normalized_name, first_name, last_name):
         direct_ratio = levenshtein_distance(full_name_direct, normalized_name_lower) / max(len(normalized_name_lower), len(full_name_direct))
         reversed_ratio = levenshtein_distance(full_name_reversed, normalized_name_lower) / max(len(normalized_name_lower), len(full_name_reversed))
         if direct_ratio <= 0.15 or reversed_ratio <= 0.15:
-            result['partial_match'] = "leven"
-            result['match'] = True
-            result['first'] = first_name
-            result['last'] = last_name
+            result.update(match=True, partial_match="leven", first=first_name, last=last_name)
+
 
         # If not a direct match, and not leven, check for partial matches including reversed names and potential hypocorisms
         if not result['match']:
@@ -84,10 +79,7 @@ def find_matches(normalized_name, first_name, last_name):
             # Check for reversed name format for partial match
             if last_name_lower in normalized_name_lower:
                 if any(name in normalized_name_lower for name in reverse_hypocorisms.get(first_name_lower, [])):
-                    result['match'] = True
-                    result['partial_match'] = "reverse_hypocorism"
-                    result['first'] = first_name
-                    result['last'] = last_name
+                    result.update(match=True, partial_match="reverse_hypocorism", first=first_name, last=last_name)
         if result['match'] or result['partial_match']:
             return result
     return result
